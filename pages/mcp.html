@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCP协议本地部署 · AI智能体搭建与exe/apk后端Key配置教程</title>
+<meta name="description" content="MCP协议本地部署教程">
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="ai-page">
+<div class="bg-layer" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="blob b4"></i></div>
+<header class="topbar glass">
+  <a class="logo" href="../index.html">🏠 AI配置教程 · 智能索引</a>
+  <span class="crumb">协议规范·本地部署型</span>
+</header>
+<main class="ai-main">
+<div class="ai-head glass">
+    <h1>MCP协议本地部署</h1>
+    <div class="tags"><span class="tag">协议规范</span><span class="tag">本地部署</span><span class="tag">工具调用</span><span class="tag">开源</span><span class="tag">exe/apk内嵌</span></div>
+    <p class="brief">MCP（Model Context Protocol）是大模型与外部工具连接的标准协议，本地部署让AI直接调用本地文件、数据库、API。</p>
+  </div>
+<div class="fold glass" data-fold><button class="fold-hd" type="button"><span>📌 官网 · 文档 · 社群渠道</span><i class="caret"></i></button><div class="fold-bd"><table class="link-table"><tr><th>官网地址</th><td><a href="https://modelcontextprotocol.io" target="_blank">https://modelcontextprotocol.io</a></td></tr><tr><th>规范文档</th><td><a href="https://modelcontextprotocol.io/specification" target="_blank">规范文档</a></td></tr><tr><th>开源仓库</th><td><a href="https://github.com/modelcontextprotocol" target="_blank">GitHub</a></td></tr><tr><th>Python SDK</th><td><a href="https://pypi.org/project/mcp" target="_blank">pip install mcp</a></td></tr><tr><th>Node.js SDK</th><td><a href="https://www.npmjs.com/package/@modelcontextprotocol/sdk" target="_blank">npm安装</a></td></tr><tr><th>社群/社区</th><td><a href="https://discord.gg/modelcontextprotocol" target="_blank">Discord</a></td></tr><tr><th>微信公众号</th><td>关注AI技术社区</td></tr><tr><th>微信小程序</th><td>暂无</td></tr></table></div></div>
+<div class="sec glass"><h2>🧠 它擅长什么</h2><ul class="feat"><li>统一大模型与外部工具的连接标准</li><li>支持本地文件读写、数据库查询、API调用</li><li>可被Claude Desktop、OpenClaw等客户端连接</li><li>支持stdio和HTTP/SSE两种传输方式</li><li>完全本地运行，数据不出本机</li></ul></div>
+<div class="sec glass"><h2>📖 详细介绍</h2><div class="intro-txt">MCP是由Anthropic提出的开放协议，标准化大语言模型与外部工具、数据源之间的连接方式。采用客户端-服务器架构，通过JSON-RPC协议通信。</div></div>
+<div class="sec glass"><h2>🛠️ 详细部署步骤</h2><div class="steps"><div class="step"><div class="step-no">1</div><div class="step-body"><h4>安装环境</h4><div class="step-txt">安装Node.js 18+和Python 3.10+，执行pip install mcp。</div></div></div><div class="step"><div class="step-no">2</div><div class="step-body"><h4>创建MCP服务</h4><div class="step-txt">创建server.py，使用FastMCP框架定义工具函数。</div></div></div><div class="step"><div class="step-no">3</div><div class="step-body"><h4>启动服务</h4><div class="step-txt">执行python server.py，默认通过stdio通信。</div></div></div><div class="step"><div class="step-no">4</div><div class="step-body"><h4>配置客户端</h4><div class="step-txt">在支持MCP的客户端中添加服务，配置启动命令。</div></div></div><div class="step"><div class="step-no">5</div><div class="step-body"><h4>测试连接</h4><div class="step-txt">在AI对话中请求调用工具，验证连接成功。</div></div></div><div class="step"><div class="step-no">6</div><div class="step-body"><h4>扩展工具</h4><div class="step-txt">继续添加@mcp.tool()函数扩展AI能力。</div></div></div></div></div>
+<div class="sec glass callback"><h2>🔁 exe/apk内嵌回调教程</h2><div class="cb-txt">MCP服务内嵌到exe/apk：应用启动MCP子进程 → stdio通信 → AI调用工具 → 返回JSON结果 → 回调函数更新UI。</div><div class="code-wrap">
+<div class="code-bar"><span class="code-t">MCP服务完整模板</span><span class="code-lang">python</span><button class="copy-btn" type="button" onclick="copyCode(this)">复制</button></div>
+<pre><code id="mcp1">from mcp.server.fastmcp import FastMCP
+import os, json
+
+mcp = FastMCP("local-tools")
+
+@mcp.tool()
+def read_file(path: str) -> str:
+    """读取本地文件内容"""
+    with open(path, "r", encoding="utf-8") as f:
+        return f.read()
+
+@mcp.tool()
+def write_file(path: str, content: str) -> str:
+    """写入文件"""
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+    return "已写入"
+
+if __name__ == "__main__":
+    mcp.run()</code></pre>
+</div></div>
+<div class="sec glass"><h2>🔗 与OpenClaw联动</h2><div class="intro-txt"><p>1. 注册OpenClaw：<a href="https://api.u-claw.org/register?aff=9OLG" target="_blank">https://api.u-claw.org/register?aff=9OLG</a></p><p>2. 在控制台添加MCP服务</p><p>3. AI即可调用本地工具函数</p></div></div>
+</main>
+
+<div class="svc-mask" id="svcMask"></div>
+<div class="svc-panel glass-strong" id="svcPanel">
+  <div class="panel-inner">
+    <div class="panel-title">💬 联系客服 · 资源导航</div>
+    <div class="qr-box">
+      <div class="qr-frame"><img id="qrImg" src="../assets/img/zsm.png" alt="赞赏码" onerror="this.src='../assets/img/wxsy1349.png'"></div>
+      <div class="qr-name" id="qrName">赞赏二维码</div>
+      <button class="qr-switch" id="qrSwitch" type="button">切换到公众号</button>
+    </div>
+    <p class="qr-tip">欢迎自愿赞赏支持作者</p>
+    <div class="wx-id" title="鼠标移过自动复制">
+      <span class="wx-label">微信公众号</span>
+      <span class="wx-line">wxsy1349</span>
+    </div>
+    <div class="svc-links">
+      <a class="svc-link c1" href="https://app.kwaixiaodian.com/page/kwaishop-store-c-frame-h5/frame?layoutType=4&hyId=kwaishop-store-c-frame-h5&sellerId=1865090819&authorId=1865090819&carrierType=29&carrierId=fva0b4kfnGw&entrance=xdhtlj" target="_blank">🛒 快手小店</a>
+      <a class="svc-link c2" href="https://pd.qq.com/s/24yp7y38f" target="_blank">💬 腾讯频道</a>
+      <a class="svc-link c3" href="https://www.zhihu.com/people/z6391" target="_blank">💡 知乎</a>
+      <a class="svc-link c4" href="https://qm.qq.com/q/VHeRTTdQcu" target="_blank">👥 QQ群</a>
+      <a class="svc-link c5" href="https://bolt.cello.so/lsypink3QTR" target="_blank">💻 在线AI编程</a>
+      <a class="svc-link c6" href="https://api.u-claw.org/register?aff=9OLG" target="_blank">🐙 OpenClaw</a>
+      <a class="svc-link c7" href="https://weibo.com/zdzqxt" target="_blank">📢 微博</a>
+      <a class="svc-link c8" href="https://txc.qq.com/embed/367382/new-post/" target="_blank">✉️ 欢迎留言</a>
+    </div>
+    <div class="svc-bottom">AI配置教程 · 全国AI智能体大全 · 持续更新中</div>
+  </div>
+</div>
+<div class="float-btns docked" id="floatBtns">
+  <button class="fab" id="svcToggle" type="button" title="点击打开客服面板">💬</button>
+  <button class="fab" id="backTop" type="button" title="返回顶部">🚀</button>
+</div>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
