@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LM Studio · AI智能体搭建与exe/apk后端Key配置教程</title>
+<meta name="description" content="图形化界面运行本地大模型，支持GGUF格式模型，内置模型市场和API服务。">
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="ai-page">
+<div class="bg-layer" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="blob b4"></i></div>
+<header class="topbar glass">
+  <a class="logo" href="../index.html">🏠 AI配置教程 · 智能索引</a>
+  <span class="crumb">免费离线·本地部署型AI</span>
+</header>
+<main class="ai-main">
+<div class="ai-head glass">
+    <h1>LM Studio</h1>
+    <div class="tags"><span class="tag">离线</span><span class="tag">图形界面</span><span class="tag">本地模型</span><span class="tag">免费</span></div>
+    <p class="brief">图形化界面运行本地大模型，支持GGUF格式模型，内置模型市场和API服务。</p>
+  </div>
+  
+<div class="fold glass" data-fold>
+  <button class="fold-hd" type="button"><span>📌 官网 · 插件 · 接口文档 · 社群渠道（全部可点）</span><i class="caret"></i></button>
+  <div class="fold-bd"><table class="link-table"><tr><th>官网地址</th><td><a href="https://lmstudio.ai" target="_blank">https://lmstudio.ai</a></td></tr><tr><th>下载地址</th><td><a href="https://lmstudio.ai/download" target="_blank">下载</a></td></tr><tr><th>开源仓库</th><td>闭源免费</td></tr><tr><th>社群</th><td>Discord社区</td></tr><tr><th>微信公众号</th><td>LM Studio</td></tr><tr><th>微信小程序</th><td>暂无</td></tr></table></div>
+</div>
+
+<div class="sec glass"><h2>🧠 它擅长什么 · 适用场景</h2><ul class="feat"><li>图形化界面，无需命令行</li><li>内置模型市场，一键下载</li><li>支持OpenAI兼容API</li><li>可同时加载多个模型</li><li>完全离线运行</li></ul></div>
+
+<div class="sec glass"><h2>📖 详细介绍</h2><div class="intro-txt">LM Studio是一款图形化本地大模型运行工具，适合不熟悉命令行的用户。内置模型搜索和下载功能，支持加载GGUF格式模型，一键启动OpenAI兼容的API服务器。</div></div>
+
+<div class="sec glass"><h2>🛠️ 详细部署 / 配置操作步骤</h2><div class="steps"><div class="step"><div class="step-no">1</div><div class="step-body"><h4>下载安装</h4><div class="step-txt">访问lmstudio.ai下载安装包，双击安装。</div></div></div><div class="step"><div class="step-no">2</div><div class="step-body"><h4>搜索模型</h4><div class="step-txt">打开软件，在左侧搜索栏输入模型名称（如qwen2）。</div></div></div><div class="step"><div class="step-no">3</div><div class="step-body"><h4>下载模型</h4><div class="step-txt">点击模型卡片的Download按钮下载。</div></div></div><div class="step"><div class="step-no">4</div><div class="step-body"><h4>加载对话</h4><div class="step-txt">切换到Chat页面，选择已下载的模型开始对话。</div></div></div><div class="step"><div class="step-no">5</div><div class="step-body"><h4>启动API</h4><div class="step-txt">在Developer页面启动本地服务器，端口默认1234。</div></div></div></div></div>
+
+<div class="sec glass callback">
+  <h2>🔁 exe / apk 内嵌与后端回调接通教程</h2>
+  <div class="cb-txt">内嵌到exe/apk的回调流程：客户端 → HTTP请求 → 收到JSON回复 → 解析内容 → 触发回调函数更新UI。注意API Key的安全存储，建议在服务端环境变量中管理。</div>
+  <div class="code-wrap">
+<div class="code-bar"><span class="code-t">LM Studio回调函数模板</span><span class="code-lang">python</span><button class="copy-btn" type="button" onclick="copyCode(this)">复制</button></div>
+<pre><code id="cb_lmstudio">import requests
+
+# LM Studio默认端口1234，兼容OpenAI格式
+def ask_lmstudio(prompt):
+    r = requests.post("http://localhost:1234/v1/chat/completions",
+        json={"model": "local-model", "messages": [{"role": "user", "content": prompt}]})
+    return r.json()["choices"][0]["message"]["content"]
+
+print(ask_lmstudio("你好"))</code></pre>
+</div>
+</div>
+</main>
+
+<div class="svc-mask" id="svcMask"></div>
+<div class="svc-panel glass-strong" id="svcPanel">
+  <div class="panel-inner">
+    <div class="panel-title">💬 联系客服 · 资源导航</div>
+    <div class="qr-box">
+      <div class="qr-frame"><img id="qrImg" src="../assets/img/zsm.png" alt="赞赏码" onerror="this.src='../assets/img/wxsy1349.png'"></div>
+      <div class="qr-name" id="qrName">赞赏二维码</div>
+      <button class="qr-switch" id="qrSwitch" type="button">切换到公众号</button>
+    </div>
+    <p class="qr-tip">欢迎自愿赞赏支持作者</p>
+    <div class="wx-id" title="鼠标移过自动复制">
+      <span class="wx-label">微信公众号</span>
+      <span class="wx-line">wxsy1349</span>
+    </div>
+    <div class="svc-links">
+      <a class="svc-link c1" href="https://app.kwaixiaodian.com/page/kwaishop-store-c-frame-h5/frame?layoutType=4&hyId=kwaishop-store-c-frame-h5&sellerId=1865090819&authorId=1865090819&carrierType=29&carrierId=fva0b4kfnGw&entrance=xdhtlj" target="_blank">🛒 快手小店</a>
+      <a class="svc-link c2" href="https://pd.qq.com/s/24yp7y38f" target="_blank">💬 腾讯频道</a>
+      <a class="svc-link c3" href="https://www.zhihu.com/people/z6391" target="_blank">💡 知乎</a>
+      <a class="svc-link c4" href="https://qm.qq.com/q/VHeRTTdQcu" target="_blank">👥 QQ群</a>
+      <a class="svc-link c5" href="https://bolt.cello.so/lsypink3QTR" target="_blank">💻 在线AI编程</a>
+      <a class="svc-link c6" href="https://api.u-claw.org/register?aff=9OLG" target="_blank">🐙 OpenClaw</a>
+      <a class="svc-link c7" href="https://weibo.com/zdzqxt" target="_blank">📢 微博</a>
+      <a class="svc-link c8" href="https://txc.qq.com/embed/367382/new-post/" target="_blank">✉️ 欢迎留言</a>
+    </div>
+    <div class="svc-bottom">AI配置教程 · 全国AI智能体大全 · 持续更新中</div>
+  </div>
+</div>
+<div class="float-btns docked" id="floatBtns">
+  <button class="fab" id="svcToggle" type="button" title="点击打开客服面板">💬</button>
+  <button class="fab" id="backTop" type="button" title="返回顶部">🚀</button>
+</div>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
